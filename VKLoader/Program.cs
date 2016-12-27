@@ -113,10 +113,12 @@ namespace VKLoader
 
             //After getting images for all offsets we start getting info for each img and available res
 
+            int counter = 1;
             foreach (var item in downloadQueue)
             {
-
+                System.Console.Write($"\rProcessing {counter} of {downloadQueue.Count} total images.");
                 VKPhoto asd = GetVKPhoto(wc, albumIDFromUrl, item);
+                counter++;
                 photos.Add(asd);
             }
 

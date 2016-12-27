@@ -11,7 +11,10 @@ Instructions
 
 1. Pass in a [valid VK Album url](http://vk.com/album-22382023_240601069)
 2. It will start looking how much images are in the album and retrieve it's information.
-3. It will seem to be stuck after showing **X images have been found in this album.** but it's just retrieving information for each resolution available of each image in the album.
-4. A progress bar will appear, just wait for it to finish downloading.
+..* ![alt text][imgQty]
+3. It will start processing each image, getting available resolutions. By default it downloads the image in the highest found resolution. 
+4. Download progress will be shown in a progress bar, just wait for it to finish.
 5. Profit! 
+
+[imgQty]: https://github.com/klujanrosas/VKLoader/raw/master/Screenshots/1.JPG "Find Images"
 
