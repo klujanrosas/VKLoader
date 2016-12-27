@@ -91,7 +91,7 @@ namespace VKLoader
 
             for (offset=0; offset <= albumPhotoCount; offset+=offsetSize)
             {
-                Console.WriteLine($"Getting images in offset {offset}");
+                Console.Write($"\rGetting images in offset {offset}.");
                 offsetBasedRequestData = new NameValueCollection
                 {
                     { "al","1" },
@@ -106,7 +106,7 @@ namespace VKLoader
             //
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"{downloadQueue.Count} images have been found in this album.");
+            Console.WriteLine($"\n{downloadQueue.Count} images have been found in this album.");
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -116,7 +116,7 @@ namespace VKLoader
             int counter = 1;
             foreach (var item in downloadQueue)
             {
-                System.Console.Write($"\rProcessing {counter} of {downloadQueue.Count} total images.");
+                Console.Write($"\rProcessing {counter} of {downloadQueue.Count} total images.");
                 VKPhoto asd = GetVKPhoto(wc, albumIDFromUrl, item);
                 counter++;
                 photos.Add(asd);
@@ -124,7 +124,7 @@ namespace VKLoader
 
             //Once we finally have all info, we start downloading uwu
 
-            Console.WriteLine("Downloading images now");
+            Console.WriteLine("\nStarting download now");
             using (var progress = new ProgressBar())
             {
                 for(int i = 0;i<photos.Count;i++)
@@ -174,14 +174,10 @@ namespace VKLoader
             {
                 foreach (Capture capture in match.Captures)
                 {
-
-
                     int indexFrom = capture.Value.IndexOf("'-") + "'-".Length;
                     int indexTo = capture.Value.IndexOf("',");
 
                     string actualValue = "-" + capture.Value.Substring(indexFrom, indexTo - indexFrom);
-                    //Console.WriteLine("Index={0}, Value={1}", capture.Index, actualValue);
-                    //Console.WriteLine("Index={0}, Value={1}", capture.Index, capture.Value);
                     downloadQueue.Add(actualValue);
                 }
             }
@@ -223,9 +219,6 @@ namespace VKLoader
                 { "photo", photoID}, //cada foto 
             };
 
-
-
-
             byte[] response = wc.UploadValues("http://vk.com/al_photos.php", "POST", requestData);
             string decodedResponse = Encoding.UTF8.GetString(response);
 
@@ -248,7 +241,7 @@ namespace VKLoader
                     photo.baseUrl = item.author_href.ToString();
 
 
-                    //ikr ._. but it works :)
+                    //i know this sucks,  but it works :)
 
                     if (item.x_ != null && item.x_src != null)
                     {
