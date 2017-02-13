@@ -54,7 +54,8 @@ namespace VKLoader
                 { "rev","" }
             };
 
-        
+        static int defaultWidth = 1280;
+        static int defaultHeight = 640;
         
         static void Main(string[] args)
         {
@@ -182,13 +183,39 @@ namespace VKLoader
                 }
             }
         }
+
+        private static string FixUrl(string url)
+        {
+            string[] splat = url.Split('/');
+
+            string newUrl = new StringBuilder()
+                    .Append("https://pp.vk.me")
+                    .Append("/" + splat[2].Replace("s", "").Remove(7))
+                    .Append("/" + splat[3])
+                    .Append("/" + splat[4])
+                    .Append("/" + splat[5])
+                    .ToString();
+
+            return newUrl;
+        }
         public static void DownloadFromUrl(WebClient wc, string url, string imgID)
         {
+            byte[] data = new byte[5242880];
             using (wc)
             {
 
-                byte[] data = wc.DownloadData(url);
-
+                try
+                {
+                     data = wc.DownloadData(url);
+                }
+                catch(WebException we)
+                {
+                    
+                    Console.WriteLine($"Fixing url for image with id {imgID}. Error : {we.Message}");
+                    data = wc.DownloadData(FixUrl(url));
+                }
+                
+                
                 using (MemoryStream mem = new MemoryStream(data))
                 {
                     using (var yourImage = Image.FromStream(mem))
@@ -245,35 +272,90 @@ namespace VKLoader
 
                     if (item.x_ != null && item.x_src != null)
                     {
-                        photo.addResolution(int.Parse(item.x_[1].ToString()), int.Parse(item.x_[2].ToString()), item.x_src.ToString());
+                        if (item.x_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.x_[1].ToString()), int.Parse(item.x_[2].ToString()), item.x_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.x_src.ToString());
+                        }
                     }
                     if (item.y_ != null && item.y_src != null)
                     {
-                        photo.addResolution(int.Parse(item.y_[1].ToString()), int.Parse(item.y_[2].ToString()), item.y_src.ToString());
+                        if (item.y_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.y_[1].ToString()), int.Parse(item.y_[2].ToString()), item.y_src.ToString());
+                        }else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.y_src.ToString());
+                        }
                     }
                     if (item.z_ != null && item.z_src != null)
                     {
-                        photo.addResolution(int.Parse(item.z_[1].ToString()), int.Parse(item.z_[2].ToString()), item.z_src.ToString());
+                        if (item.z_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.z_[1].ToString()), int.Parse(item.z_[2].ToString()), item.z_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.z_src.ToString());
+                        }
                     }
                     if (item.w_ != null && item.w_src != null)
                     {
-                        photo.addResolution(int.Parse(item.w_[1].ToString()), int.Parse(item.w_[2].ToString()), item.w_src.ToString());
+                        if (item.w_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.w_[1].ToString()), int.Parse(item.w_[2].ToString()), item.w_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.w_src.ToString());
+                        }
                     }
                     if (item.o_ != null && item.o_src != null)
                     {
-                        photo.addResolution(int.Parse(item.o_[1].ToString()), int.Parse(item.o_[2].ToString()), item.o_src.ToString());
+                        if (item.o_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.o_[1].ToString()), int.Parse(item.o_[2].ToString()), item.o_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.o_src.ToString());
+                        }
                     }
                     if (item.p_ != null && item.p_src != null)
                     {
-                        photo.addResolution(int.Parse(item.p_[1].ToString()), int.Parse(item.p_[2].ToString()), item.p_src.ToString());
+                        if (item.p_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.p_[1].ToString()), int.Parse(item.p_[2].ToString()), item.p_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.p_src.ToString());
+                        }
                     }
                     if (item.q_ != null && item.q_src != null)
                     {
-                        photo.addResolution(int.Parse(item.q_[1].ToString()), int.Parse(item.q_[2].ToString()), item.q_src.ToString());
+                        if (item.q_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.q_[1].ToString()), int.Parse(item.q_[2].ToString()), item.q_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.q_src.ToString());
+                        }
                     }
                     if (item.r_ != null && item.r_src != null)
                     {
-                        photo.addResolution(int.Parse(item.r_[1].ToString()), int.Parse(item.r_[2].ToString()), item.r_src.ToString());
+                        if (item.r_.Count > 1)
+                        {
+                            photo.addResolution(int.Parse(item.r_[1].ToString()), int.Parse(item.r_[2].ToString()), item.r_src.ToString());
+                        }
+                        else
+                        {
+                            photo.addResolution(defaultWidth, defaultHeight, item.r_src.ToString());
+                        }
 
                         //Console.WriteLine(item.z_src.ToString()); Console.WriteLine(item.z_[0].ToString());
                     }
